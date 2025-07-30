@@ -2,6 +2,7 @@ package com.myapp.spring.service;
 
 import com.myapp.spring.domain.Trade;
 import com.myapp.spring.repository.TradeRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +23,9 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public Optional<Trade> getTradeById(Long id) {
-        return tradeRepository.findById(id);
+    @Cacheable(value = "trade",key = "#tradeId")
+    public Optional<Trade> getTradeById(Long tradeId) {
+        return tradeRepository.findById(tradeId);
     }
 
     @Override

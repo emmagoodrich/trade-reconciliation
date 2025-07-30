@@ -2,6 +2,7 @@ package com.myapp.spring.service;
 
 import com.myapp.spring.domain.Instrument;
 import com.myapp.spring.repository.InstrumentRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +23,9 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public Optional<Instrument> getInstrumentById(Long id) {
-        return instrumentRepository.findById(id);
+    @Cacheable(value = "instrument",key = "#instrumentId")
+    public Optional<Instrument> getInstrumentById(Long instrumentId) {
+        return instrumentRepository.findById(instrumentId);
     }
 
     @Override
